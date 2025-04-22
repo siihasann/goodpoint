@@ -16,6 +16,9 @@
     <h3>
         <%= place.price  %>
     </h3>
+    <form action="/places/<%= place._id %>?_method=DELETE" method="post" style="display: inline!important; ">
+        <button type="submit">Delete</button>
+    </form>
     <a href="/places/<%= place._id %>/edit"> Update Places</a>
     <a href="/places"> All Places</a>
 
