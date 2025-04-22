@@ -9,11 +9,12 @@
 
 <body>
   <h1>All Places</h1>
+  <a href="/places/create">Add Places</a>
 
   <ul>
     <% for(const place of places) { %>
       <li>
-        <%= place.title %>
+        <a href="/places/<%= place._id %>"><%= place.title %></a>
       </li>
     <% } %>
   </ul>
