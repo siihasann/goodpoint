@@ -1,3 +1,4 @@
+const ejsMate = require('ejs-mate');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -17,7 +18,7 @@ mongoose.connect('mongodb://127.0.0.1/bestpoints')
         console.log('Error connecting to MongoDB:', err);
     });
 
-
+app.engine('ejs', ejsMate); // Use ejs-mate for layout support
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 

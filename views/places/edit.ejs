@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BestPoint | Update New Place</title>
-</head>
-<body>
-    <h1>Update New Place</h1>
-    <form action="/places/<%= place._id %>?_method=PUT" method="post">
-        <div>
-            <Label for="title">Title</Label>
-            <input type="text" name="place[title]" id="title" value="<%= place.title %>" required>
-        </div>
+<% layout('layouts/app') %>
 
-        <div>
-            <Label for="location">Location</Label>
-            <input type="text" name="place[location]" id="location" value="<%= place.location %>" required>
-        </div>
+<h1>Update New Place</h1>
+<form action="/places/<%= place._id %>?_method=PUT" method="post">
+    <div>
+        <Label for="title">Title</Label>
+        <input type="text" name="place[title]" id="title" value="<%= place.title %>" required>
+    </div>
 
-        <div>
-            <Label for="price">Price</Label>
-            <input type="text" name="place[price]" id="price" value="<%= place.price %>" required>
-        </div>
-        <button type="submit">Save</button>
-    </form>
-</body>
-</html>
+    <div>
+        <Label for="location">Location</Label>
+        <input type="text" name="place[location]" id="location" value="<%= place.location %>" required>
+    </div>
+
+    <div>
+        <Label for="price">Price</Label>
+        <input type="text" name="place[price]" id="price" value="<%= place.price %>" required>
+    </div>
+    <button type="submit">Save</button>
+</form>
