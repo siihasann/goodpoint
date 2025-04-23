@@ -21,14 +21,17 @@
         </div>
     </div>
     <div class="col-6">
-        <div class="mb-3">
-            <label for="rating">Rating</label>
-            <input type="range" name="review[rating]" min="1" max="5" id="rating" class="form-range">
-        </div>
-        <div class="mb-3">
-            <label for="review">Review</label>
-            <textarea name="review[body]" id="body" cols="30" rows="5" class="form-control"></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <h3>Leave a Review</h3>
+        <form action="/places/<%= place._id %>/reviews" method="post">
+            <div class="mb-3">
+                <label for="rating">Rating</label>
+                <input type="range" name="review[rating]" min="1" max="5" id="rating" class="form-range">
+            </div>
+            <div class="mb-3">
+                <label for="review">Review</label>
+                <textarea name="review[body]" id="body" cols="30" rows="5" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
     </div>
 </div>

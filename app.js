@@ -16,6 +16,7 @@ const { console } = require('inspector');
 
 // Schemas
 const { placeSchema } = require('./schemas/place');
+const Review = require('./models/review');
 
 
 // Connect to MongoDB
@@ -93,6 +94,17 @@ app.delete('/places/:id', wrapAsync (async (req, res) => {
 }))
 
 
+// Review a place
+app.post('/places/:id/reviews', wrapAsync(async (req, res) => {
+  const review = new Review(req.body.review);
+  const place = await Place.findById(req.params.id);
+  place.reviews.push(review);
+  await review.save();
+  await place.save();
+  res.redirect(`/places/${req.params.id}`);
+}))
+
+
 app.use((req, res, next) => {
   next(new ErrorHandler());
 });
@@ -103,25 +115,6 @@ app.use((err, req, res, next) => {
   if (!err.message) err.message = 'Oh No, Something Went Wrong!';
   res.status(statusCode).render('error', { err });
 });
-
-// app.get('/seed/place', async (req, res) => { 
-//     const place = new Place({
-//         title: 'Sample Place',
-//         description: 'This is a sample place description.',
-//         price: '100',
-//         location: 'Sample Location'
-//     })
-
-//     await place.save()
-//         .then(() => {
-//             console.log('Place saved');
-//             res.send('Place saved');
-//         })
-//         .catch((err) => {
-//             console.log('Error saving place:', err);
-//             res.status(500).send('Error saving place');
-//         });
-// })
 
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
