@@ -2,6 +2,7 @@ const ejsMate = require('ejs-mate');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const wrapAsync = require('./utils/wrapAsync')
 
 const path = require('path');
 const app = express();
@@ -32,10 +33,10 @@ app.get('/', (req, res) => {
 });
 
 // Show all places
-app.get('/places', async (req, res) => { 
+app.get('/places', wrapAsync (async (req, res) => { 
     const places = await Place.find();
     res.render('places/index', { places });
-})
+}))
 
 
 // Create a new place
@@ -43,36 +44,41 @@ app.get('/places/create', (req, res) => {
     res.render('places/create');
 })
 // Handle form submission to create a new place
-app.post('/places', async (req, res) => { 
+app.post('/places', wrapAsync (async (req, res) => { 
     const place = new Place(req.body.place);
     await place.save();
     res.redirect('/places');
-})
+}))
 
 
 // Show a single place
-app.get('/places/:id', async (req, res) => {
+app.get('/places/:id', wrapAsync (async (req, res) => {
   const place = await Place.findById(req.params.id);
   res.render('places/show', { place });
-})
+}))
 
 
 // Update a place
-app.get('/places/:id/edit', async (req, res) =>{
+app.get('/places/:id/edit', wrapAsync (async (req, res) =>{
   const place = await Place.findById(req.params.id);
   res.render('places/edit', { place });
-})
+}))
 // Handle form submission to update a place
-app.put('/places/:id', async (req, res) => { 
+app.put('/places/:id', wrapAsync (async (req, res) => { 
   await Place.findByIdAndUpdate(req.params.id, {...req.body.place});
   res.redirect(`/places/${req.params.id}`);
-})
+}))
 
 
 // Delete a place
-app.delete('/places/:id', async (req, res) => {
+app.delete('/places/:id', wrapAsync (async (req, res) => {
   await Place.findByIdAndDelete(req.params.id);
   res.redirect('/places');
+}))
+
+app.use((err, req, res, next) => { 
+  console.log(err);
+  res.status(500).send('Something went wrong!');
 })
 
 // app.get('/seed/place', async (req, res) => { 
