@@ -2,7 +2,8 @@ const ejsMate = require('ejs-mate');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const wrapAsync = require('./utils/wrapAsync')
+const wrapAsync = require('./utils/wrapAsync');
+const ErrorHandler = require('./utils/ErrorHandler');
 
 const path = require('path');
 const app = express();
@@ -76,10 +77,17 @@ app.delete('/places/:id', wrapAsync (async (req, res) => {
   res.redirect('/places');
 }))
 
-app.use((err, req, res, next) => { 
-  console.log(err);
-  res.status(500).send('Something went wrong!');
-})
+
+app.use((req, res, next) => {
+  next(new ErrorHandler());
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Oh No, Something Went Wrong!';
+  res.status(statusCode).render('error', { err });
+});
 
 // app.get('/seed/place', async (req, res) => { 
 //     const place = new Place({
