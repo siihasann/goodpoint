@@ -1,21 +1,37 @@
 <% layout('layouts/app') %>
 
 
-<h1>Add New Place</h1>
-<form action="/places" method="post">
-    <div>
-        <Label for="title">Title</Label>
-        <input type="text" name="place[title]" id="title" placeholder="Title" required>
-    </div>
+<h1 class="text-center">Add New Place</h1>
+<div class="col-6 offset-3">
+    <form action="/places" method="post">
+        <div class="mb-3">
+            <Label for="title" class="form-label">Title</Label>
+            <input type="text" name="place[title]" id="title" placeholder="Title" class="form-control" required>
+        </div>
+    
+        <div class="mb-3">
+            <Label for="location" class="form-label">Location</Label>
+            <input type="text" name="place[location]" id="location" placeholder="Location" class="form-control" required>
+        </div>
 
-    <div>
-        <Label for="location">Location</Label>
-        <input type="text" name="place[location]" id="location" placeholder="Location" required>
-    </div>
+        <div class="mb-3">
+            <Label for="description" class="form-label">Description</Label>
+            <textarea name="place[description]" id="description" placeholder="Description" class="form-control" required></textarea>
+        </div>
+    
+        <div class="mb-3">
+            <Label for="price" class="form-label">Price</Label>
+            <input type="text" name="place[price]" id="price" placeholder="Price" class="form-control" required>
+        </div>
 
-    <div>
-        <Label for="price">Price</Label>
-        <input type="text" name="place[price]" id="price" placeholder="Price" required>
-    </div>
-    <button type="submit">Save</button>
-</form>
+        <div class="mb-3">
+            <Label for="image" class="form-label">Image</Label>
+            <input type="text" name="place[image]" id="image" placeholder="Image" class="form-control" required>
+        </div>
+
+
+        <button type="submit" class="btn btn-success mt-3">Save</button>
+    </form>
+
+</div>
+
