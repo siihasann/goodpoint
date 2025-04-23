@@ -2,31 +2,61 @@
 
 
 <h1 class="text-center">Add New Place</h1>
-<div class="col-6 offset-3">
-    <form action="/places" method="post">
+<div class="col-6 offset-3 mb-5">
+    <form action="/places" method="post" class="validated-form" novalidate>
         <div class="mb-3">
             <Label for="title" class="form-label">Title</Label>
             <input type="text" name="place[title]" id="title" placeholder="Title" class="form-control" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please fill out this field.
+            </div>
         </div>
     
         <div class="mb-3">
             <Label for="location" class="form-label">Location</Label>
             <input type="text" name="place[location]" id="location" placeholder="Location" class="form-control" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please fill out this field.
+            </div>
         </div>
 
         <div class="mb-3">
             <Label for="description" class="form-label">Description</Label>
             <textarea name="place[description]" id="description" placeholder="Description" class="form-control" required></textarea>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please fill out this field.
+            </div>
         </div>
     
         <div class="mb-3">
             <Label for="price" class="form-label">Price</Label>
             <input type="text" name="place[price]" id="price" placeholder="Price" class="form-control" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please fill out this field.
+            </div>
         </div>
 
         <div class="mb-3">
             <Label for="image" class="form-label">Image</Label>
             <input type="text" name="place[image]" id="image" placeholder="Image" class="form-control" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please fill out this field.
+            </div>
         </div>
 
 
@@ -35,3 +65,21 @@
 
 </div>
 
+<script>
+    (() => {
+    'use strict'
+
+    const forms = document.querySelectorAll('.validated-form')
+
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+</script>
