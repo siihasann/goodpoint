@@ -1,20 +1,37 @@
 <% layout('layouts/app') %>
 
-<h1>Update New Place</h1>
-<form action="/places/<%= place._id %>?_method=PUT" method="post">
-    <div>
-        <Label for="title">Title</Label>
-        <input type="text" name="place[title]" id="title" value="<%= place.title %>" required>
-    </div>
 
-    <div>
-        <Label for="location">Location</Label>
-        <input type="text" name="place[location]" id="location" value="<%= place.location %>" required>
-    </div>
+<h1 class="text-center">Edit Place</h1>
+<div class="col-6 offset-3">
+    <form action="/places/<%= place._id %>?_method=PUT" method="post">
+        <div class="mb-3">
+            <Label for="title" class="form-label">Title</Label>
+            <input type="text" name="place[title]" id="title" placeholder="Title" class="form-control" value="<%= place.title %>" required>
+        </div>
+    
+        <div class="mb-3">
+            <Label for="location" class="form-label">Location</Label>
+            <input type="text" name="place[location]" id="location" placeholder="Location" class="form-control" value="<%= place.location %>" required>
+        </div>
 
-    <div>
-        <Label for="price">Price</Label>
-        <input type="text" name="place[price]" id="price" value="<%= place.price %>" required>
-    </div>
-    <button type="submit">Save</button>
-</form>
+        <div class="mb-3">
+            <Label for="description" class="form-label">Description</Label>
+            <textarea name="place[description]" id="description" placeholder="Description" class="form-control"  required><%= place.description %></textarea>
+        </div>
+    
+        <div class="mb-3">
+            <Label for="price" class="form-label">Price</Label>
+            <input type="text" name="place[price]" id="price" placeholder="Price" class="form-control" value="<%= place.price %>" required>
+        </div>
+
+        <div class="mb-3">
+            <Label for="image" class="form-label">Image</Label>
+            <input type="text" name="place[image]" id="image" placeholder="Image" class="form-contro" value="<%= place.image %>"  required>
+        </div>
+
+
+        <button type="submit" class="btn btn-success mt-3">Save</button>
+    </form>
+
+</div>
+
