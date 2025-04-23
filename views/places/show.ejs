@@ -1,6 +1,5 @@
 <% layout('layouts/app') %>
 
-<img src="<%= place.image %>" alt="">
 <h1>
     Show Detail Place
     <%= place.title  %>
@@ -12,6 +11,7 @@
     <%= place.price  %>
 </h3>
 <p><%= place.description %></p>
+<img src="<%= place.image %>" alt="<%= place.title %>">
 <form action="/places/<%= place._id %>?_method=DELETE" method="post" style="display: inline!important; ">
     <button type="submit">Delete</button>
 </form>
