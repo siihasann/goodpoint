@@ -1,0 +1,64 @@
+const express = require('express');
+const wrapAsync = require('../utils/wrapAsync');
+const ErrorHandler = require('../utils/ErrorHandler');
+const Place = require('../models/place');
+const { placeSchema } = require('../schemas/place');
+
+const router = express.Router();
+
+// Middleware for validating place data
+const validatePlace = (req, res, next) => {
+    const { error } = placeSchema.validate(req.body);
+    if (error) {
+      const msg = error.details.map(el => el.message).join(',');
+      return next(new ErrorHandler(msg, 400));
+    } else {
+      next();
+    }
+  }
+
+// Show all places
+router.get('/', wrapAsync (async (req, res) => { 
+    const places = await Place.find();
+    res.render('places/index', { places });
+}))
+
+
+// Create a new place
+router.get('/create', (req, res) => {
+    res.render('places/create');
+})
+// Handle form submission to create a new place
+router.post('/', validatePlace, wrapAsync(async (req, res, next) => { 
+    const place = new Place(req.body.place);
+    await place.save();
+    res.redirect('/places');
+}))
+
+
+// Show a single place
+router.get('/:id', wrapAsync (async (req, res) => {
+  const place = await Place.findById(req.params.id).populate('reviews');
+  res.render('places/show', { place });
+}))
+
+
+// Update a place
+router.get('/:id/edit', wrapAsync (async (req, res) =>{
+  const place = await Place.findById(req.params.id);
+  res.render('places/edit', { place });
+}))
+// Handle form submission to update a place
+router.put('/:id', validatePlace, wrapAsync (async (req, res) => { 
+  await Place.findByIdAndUpdate(req.params.id, {...req.body.place});
+  res.redirect(`/places/${req.params.id}`);
+}))
+
+
+// Delete a place
+router.delete('/:id', wrapAsync (async (req, res) => {
+  await Place.findByIdAndDelete(req.params.id);
+  res.redirect('/places');
+}))
+
+module.exports = router;
