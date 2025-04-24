@@ -11,12 +11,14 @@ const app = express();
 
 // Models
 const Place = require('./models/place');
+const Review = require('./models/review');
 const { title } = require('process');
 const { console } = require('inspector');
 
 // Schemas
 const { placeSchema } = require('./schemas/place');
-const Review = require('./models/review');
+const { reviewSchema} = require('./schemas/review');
+
 
 
 // Connect to MongoDB
@@ -35,8 +37,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));     
 
+
 const validatePlace = (req, res, next) => {
   const { error } = placeSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(',');
+    return next(new ErrorHandler(msg, 400));
+  } else {
+    next();
+  }
+}
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map(el => el.message).join(',');
     return next(new ErrorHandler(msg, 400));
@@ -95,7 +108,7 @@ app.delete('/places/:id', wrapAsync (async (req, res) => {
 
 
 // Review a place
-app.post('/places/:id/reviews', wrapAsync(async (req, res) => {
+app.post('/places/:id/reviews',validateReview, wrapAsync(async (req, res) => {
   const review = new Review(req.body.review);
   const place = await Place.findById(req.params.id);
   place.reviews.push(review);
