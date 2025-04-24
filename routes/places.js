@@ -31,7 +31,8 @@ router.get('/create', (req, res) => {
 // Handle form submission to create a new place
 router.post('/', validatePlace, wrapAsync(async (req, res, next) => { 
     const place = new Place(req.body.place);
-    await place.save();
+  await place.save();
+  req.flash('success_msg', 'Successfully created a new place!');
     res.redirect('/places');
 }))
 

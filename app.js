@@ -1,5 +1,6 @@
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const flash = require('connect-flash');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -36,6 +37,12 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   }
 }))
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  next();
+})
 
 app.get('/', (req, res) => {
   res.render('home', { title: 'Home' });
