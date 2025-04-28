@@ -31,8 +31,8 @@ router.get('/create', (req, res) => {
 // Handle form submission to create a new place
 router.post('/', validatePlace, wrapAsync(async (req, res, next) => { 
     const place = new Place(req.body.place);
-  await place.save();
-  req.flash('success_msg', 'Successfully created a new place!');
+    await place.save();
+    req.flash('success_msg', 'Successfully created a new place!');
     res.redirect('/places');
 }))
 
@@ -51,7 +51,8 @@ router.get('/:id/edit', wrapAsync (async (req, res) =>{
 }))
 // Handle form submission to update a place
 router.put('/:id', validatePlace, wrapAsync (async (req, res) => { 
-  await Place.findByIdAndUpdate(req.params.id, {...req.body.place});
+  await Place.findByIdAndUpdate(req.params.id, { ...req.body.place });
+  req.flash('success_msg', 'Place updated successfully!');
   res.redirect(`/places/${req.params.id}`);
 }))
 
@@ -59,6 +60,7 @@ router.put('/:id', validatePlace, wrapAsync (async (req, res) => {
 // Delete a place
 router.delete('/:id', wrapAsync (async (req, res) => {
   await Place.findByIdAndDelete(req.params.id);
+  req.flash('success_msg', 'Place deleted successfully!');
   res.redirect('/places');
 }))
 
