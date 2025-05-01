@@ -5,9 +5,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ErrorHandler = require('./utils/ErrorHandler');
-
 const path = require('path');
 const app = express();
+const passport = require('passport');
+const LocalStrategy = require('passport-local-mongoose');
+const User = require('./models/user');
 
 const { console } = require('inspector');
 
@@ -37,7 +39,14 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   }
 }))
+
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
