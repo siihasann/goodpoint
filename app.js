@@ -1,17 +1,16 @@
 const ejsMate = require('ejs-mate');
+const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
-const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ErrorHandler = require('./utils/ErrorHandler');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('./models/user');
 const path = require('path');
 const app = express();
-const passport = require('passport');
-const LocalStrategy = require('passport-local-mongoose');
-const User = require('./models/user');
-
-const { console } = require('inspector');
+// const { console } = require('inspector');
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1/bestpoints')
@@ -56,6 +55,20 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.render('home', { title: 'Home' });
 });
+
+app.get('/register', async (req, res) => {
+  const user = new User({
+    email: 'user@mail.com',
+    username: 'user',
+  });
+
+  // User.register(user, 'password', (err, user) => {
+  //   res.send(user);
+  // })
+  const newUser = await User.register(user, 'password');
+  res.send(newUser);
+  
+})
 
 app.use('/places', require('./routes/places'));
 app.use('/places/:place_id/reviews', require('./routes/reviews'));
